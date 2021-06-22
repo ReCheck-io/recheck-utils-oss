@@ -1,6 +1,7 @@
 ;
 const {keccak256} = require("js-sha3");
 const UUIDv4 = require('uuid').v4;
+const {ValidationError: sequelizeError} = require("sequelize");
 const {HASH_PREFIX, NULL_HASH, EMPTY_STRING, variableTypes} = require("./constants.js");
 
 
@@ -150,6 +151,30 @@ function getUnixTimeInSeconds() {
     return Math.floor(Date.now() / 1000);
 }
 
+function processSequelizeValidationError(error) {
+    if (error instanceof sequelizeError && !isNullAny(error.errors)) {
+        const errors = error.errors;
+
+        const arr = [];
+        for (let i = 0; i < errors.length; i++) {
+            let currentError = errors[i];
+
+            arr.push({
+                field: currentError.path,
+                message: currentError.message
+            });
+        }
+
+        if (arr.length === 1) {
+            return arr[0];
+        }
+
+        return arr;
+    }
+
+    return error;
+}
+
 
 module.exports = {
     getHash,
@@ -163,4 +188,5 @@ module.exports = {
     areNotNullAll,
     areNullAll,
     getUnixTimeInSeconds,
+    processSequelizeValidationError,
 };
