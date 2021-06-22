@@ -1,0 +1,17 @@
+{
+  "version": "2.0.0",
+  "name": "recheck-utils-oss",
+  "description": "ReCheck open software utils.",
+  "author": "ReCheck BV <info@recheck.io>",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --quiet index.js",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "chai": "^4.3.4",
+    "js-sha3": "^0.8.0",
+    "mocha": "^9.0.0",
+    "uuid": "^8.3.2"
+  }
+}
