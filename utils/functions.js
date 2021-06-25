@@ -2,6 +2,7 @@
 const {keccak256} = require("js-sha3");
 const UUIDv4 = require('uuid').v4;
 const {ValidationError: sequelizeError} = require("sequelize");
+const fs = require('fs');
 const {HASH_PREFIX, NULL_HASH, EMPTY_STRING, variableTypes} = require("./constants.js");
 
 
@@ -175,6 +176,14 @@ function processSequelizeValidationError(error) {
     return error;
 }
 
+function readFile(path) {
+    return fs.readFileSync(path, {encoding: 'base64'});
+}
+
+function writeFile(data, path) {
+    return fs.writeFileSync(path, data, {encoding: 'base64'});
+}
+
 
 module.exports = {
     getHash,
@@ -189,4 +198,6 @@ module.exports = {
     areNullAll,
     getUnixTimeInSeconds,
     processSequelizeValidationError,
+    readFile,
+    writeFile,
 };
