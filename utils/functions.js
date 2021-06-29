@@ -152,6 +152,21 @@ function getUnixTimeInSeconds() {
     return Math.floor(Date.now() / 1000);
 }
 
+function renameObjKeysWithPrefixSuffix(obj, prefix = "", suffix = "") {
+    if (typeof obj !== variableTypes.OBJECT || isNullAny(obj)) {
+        return obj;
+    }
+
+    const keys = Object.keys(obj);
+    for (let i = 0; i < keys.length; i++) {
+        let currentKey = keys[i];
+        obj[prefix + currentKey + suffix] = obj[currentKey];
+        delete obj[currentKey];
+    }
+
+    return obj;
+}
+
 function processSequelizeValidationError(error) {
     if (error instanceof sequelizeError && !isNullAny(error.errors)) {
         const errors = error.errors;
@@ -197,6 +212,7 @@ module.exports = {
     areNotNullAll,
     areNullAll,
     getUnixTimeInSeconds,
+    renameObjKeysWithPrefixSuffix,
     processSequelizeValidationError,
     readFile,
     writeFile,
