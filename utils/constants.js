@@ -6,6 +6,7 @@ const SUCCESS_STRING = "success";
 const EMPTY_STRING = "";
 const NEW_LINE = "\n";
 const URL_SLASH = "/";
+const URL_ANY_PATH = `${URL_SLASH}*`;
 const HASH_REGEX = new RegExp(`${HASH_PREFIX}[0-9a-f]{64}`);
 const SEQUELIZE_ERROR = require("sequelize").ValidationError;
 
@@ -30,6 +31,7 @@ module.exports = {
     EMPTY_STRING,
     NEW_LINE,
     URL_SLASH,
+    URL_ANY_PATH,
     HASH_REGEX,
     SEQUELIZE_ERROR,
     variableTypes,
