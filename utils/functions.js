@@ -152,7 +152,7 @@ function getUnixTimeInSeconds() {
     return Math.floor(Date.now() / 1000);
 }
 
-function renameObjKeysWithPrefixSuffix(obj, prefix = "", suffix = "") {
+function renameObjKeysWithPrefixSuffix(obj, prefix = EMPTY_STRING, suffix = EMPTY_STRING) {
     if (typeof obj !== variableTypes.OBJECT || isNullAny(obj)) {
         return obj;
     }
