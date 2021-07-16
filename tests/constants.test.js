@@ -1,5 +1,5 @@
 ;
-describe("initialize ReCheck OSS utils", () => {
+describe("test ReCheck OSS utils constants", () => {
 
     it("should be able to require constants", (done) => {
         try {

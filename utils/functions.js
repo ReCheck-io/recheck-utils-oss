@@ -77,7 +77,11 @@ function filterObjectOrArrayObjsProps(objOrArrayObj, keys, shouldClone = true) {
     }
 }
 
-function filterObjectNullProperties(obj) {
+function filterObjectNullProperties(obj, shouldClone = true) {
+    if (shouldClone) {
+        obj = cloneElement(obj);
+    }
+
     Object.keys(obj).forEach((key) => isNullAny(obj[key]) && delete obj[key]);
     return obj;
 }
@@ -118,7 +122,7 @@ function isNullAny(...args) {
 
         // check for hashes of null values
         if ([
-            "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470", // null/undefined/""/[].toString(),
+            "0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470", // ""/[].toString(),
             "0x7bc087f4ef9d0dc15fef823bff9c78cc5cca8be0a85234afcfd807f412f40877", // {}.toString()
             "0x518674ab2b227e5f11e9084f615d57663cde47bce1ba168b4c19c7ee22a73d70", // JSON.stringify([])
             "0xb48d38f93eaa084033fc5970bf96e559c33c4cdc07d889ab00b4d63f9590739d", // JSON.stringify({})
