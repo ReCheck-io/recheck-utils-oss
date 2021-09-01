@@ -6,9 +6,11 @@ const SUCCESS_STRING = "success";
 const EMPTY_STRING = "";
 const NEW_LINE = "\n";
 const URL_SLASH = "/";
-const WINDOWS_SLASH = "\\";
-const LINUX_SLASH = URL_SLASH;
 const URL_ANY_PATH = `${URL_SLASH}*`;
+const WINDOWS_SLASH = "\\";
+const WINDOWS_SLASH_REGEX = new RegExp(WINDOWS_SLASH, "g");
+const LINUX_SLASH = URL_SLASH;
+const LINUX_SLASH_REGEX = new RegExp(LINUX_SLASH, "g");
 const HASH_REGEX = new RegExp(`${HASH_PREFIX}[0-9a-f]{64}`);
 const UUID_REGEX = new RegExp('[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
 const SEQUELIZE_ERROR = require("sequelize").ValidationError;
@@ -34,9 +36,11 @@ module.exports = {
     EMPTY_STRING,
     NEW_LINE,
     URL_SLASH,
-    WINDOWS_SLASH,
-    LINUX_SLASH,
     URL_ANY_PATH,
+    WINDOWS_SLASH,
+    WINDOWS_SLASH_REGEX,
+    LINUX_SLASH,
+    LINUX_SLASH_REGEX,
     HASH_REGEX,
     UUID_REGEX,
     SEQUELIZE_ERROR,
