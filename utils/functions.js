@@ -1,6 +1,7 @@
 ;
 const {keccak256} = require("js-sha3");
 const UUIDv4 = require('uuid').v4;
+const stringify = require('json-stable-stringify');
 const {ValidationError: sequelizeError} = require("sequelize");
 const fs = require('fs');
 const {HASH_PREFIX, NULL_HASH, EMPTY_STRING, variableTypes} = require("./constants.js");
@@ -8,6 +9,14 @@ const {HASH_PREFIX, NULL_HASH, EMPTY_STRING, variableTypes} = require("./constan
 
 function getHash(string) {
     return `${HASH_PREFIX}${keccak256(string)}`;
+}
+
+function getTrailHash(dataChainId, sender, requestType, recipient = sender, extraTrailArgs = []) {
+    if (isNullAny(extraTrailArgs)) {
+        extraTrailArgs = [];
+    }
+
+    return getHash(dataChainId + sender + requestType + recipient + JSON.stringify(extraTrailArgs));
 }
 
 function getUUID() {
@@ -24,6 +33,10 @@ function JSONParseIgnoreError(jsonString) {
     } catch (ignored) {
         return jsonString;
     }
+}
+
+function JSONStringifyOrdered(obj) {
+    return stringify(obj).replace(/\s/g, "");
 }
 
 function processRegardlessIfArray(data, processFunction, ...extraArgs) {
@@ -207,12 +220,18 @@ function writeFile(data, path) {
     return fs.writeFileSync(path, data, {encoding: 'base64'});
 }
 
+function isValidEmail(emailAddress) {
+    return /^(?=.{6,255}$)(.+){1,64}@(?=.{4,254}$)(.+){1,251}\.(.+){2,251}$/.test(emailAddress);
+}
+
 
 module.exports = {
     getHash,
+    getTrailHash,
     getUUID,
     cloneElement,
     JSONParseIgnoreError,
+    JSONStringifyOrdered,
     processRegardlessIfArray,
     filterObjectOrArrayObjsProps,
     filterObjectNullProperties,
@@ -225,4 +244,5 @@ module.exports = {
     processSequelizeValidationError,
     readFile,
     writeFile,
+    isValidEmail,
 };
